@@ -1,6 +1,9 @@
+using FakeUserGenerator.Utilities.Settings;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
+builder.Services.Configure<RegionOptions>(builder.Configuration.GetSection(nameof(RegionOptions)));
 
 var app = builder.Build();
 
