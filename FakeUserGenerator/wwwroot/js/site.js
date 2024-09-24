@@ -1,4 +1,17 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿function changeRegion() {
+    let selectedRegion = document.getElementById("regionSelect").value;
+    window.location.href = `?Region=${selectedRegion}`;
+}
 
-// Write your JavaScript code.
+function setSelectedRegion() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const region = urlParams.get('Region');
+
+    if (region) {
+        const regionSelect = document.getElementById("regionSelect");
+        regionSelect.value = region; 
+    }
+}
+
+document.getElementById("regionSelect").addEventListener("change", changeRegion);
+window.onload = setSelectedRegion; 
