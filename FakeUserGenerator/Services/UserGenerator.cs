@@ -29,7 +29,8 @@ public class UserGenerator(IOptions<RegionOptions> regionOptions) : IUserGenerat
             .RuleFor(u => u.Number, f => f.IndexFaker + 1)
             .RuleFor(u => u.Id, f => Guid.NewGuid())
             .RuleFor(u => u.FullName, f => f.Name.FullName())
-            .RuleFor(u => u.Address, f => $"{regionConfig.OriginalName}, {f.Address.City()}, {f.Address.StreetName()}, {f.Address.BuildingNumber()}")
+            .RuleFor(u => u.Address, f => 
+                $"{regionConfig.OriginalName}, {f.Address.City()}, {f.Address.StreetName()}, {f.Address.BuildingNumber()}")
             .RuleFor(u => u.PhoneNumber, f =>
             {
                 var randomPhoneNumber = f.Random.ReplaceNumbers("##########");
