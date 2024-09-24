@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUserGenerator, UserGenerator>();
+builder.Services.AddScoped<IErrorInjector, ErrorInjector>();
 builder.Services.Configure<RegionOptions>(builder.Configuration.GetSection(nameof(RegionOptions)));
 
 var app = builder.Build();
