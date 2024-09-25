@@ -20,3 +20,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/*off scrollbar*/
+::-webkit-scrollbar {
+    width: 0;
+}

@@ -7,7 +7,6 @@ namespace FakeUserGenerator.Pages;
 
 public class IndexModel(IUserGenerator userGenerator, IErrorInjector errorInjector) : PageModel
 {
-    private readonly Random random = new Random();
     public IEnumerable<User>? Users { get; set; }
     [BindProperty]
     public int Seed { get; set; }
@@ -21,8 +20,26 @@ public class IndexModel(IUserGenerator userGenerator, IErrorInjector errorInject
         Seed = seed;
         Region = region;
         ErrorCount = errorCount;
-        var users = userGenerator.GenerateUsers(region, seed, 20);
+
+        var users = userGenerator.GenerateUsers(region, seed, 20, 0);
         Users = errorInjector.InjectErrors(users, errorCount, region);
+    }
+
+    public IActionResult OnGetMoreUsers([FromQuery]string region, [FromQuery] int seed, [FromQuery] double errorCount, [FromQuery] int page) 
+    {
+        Console.WriteLine(region);
+        Seed = seed;
+        Region = region;
+        ErrorCount = errorCount;
+        var users = userGenerator.GenerateUsers(region, seed, 10, page);
+        var injectedUsers = errorInjector.InjectErrors(users, errorCount, region);
+
+        return new JsonResult(injectedUsers);
+    }
+
+    public IActionResult OnPostChangeRegion()
+    {
+        return RedirectToPage(new { region = Region, seed = Seed, errorCount = ErrorCount });
     }
 
     public IActionResult OnPostSeed()
@@ -32,6 +49,7 @@ public class IndexModel(IUserGenerator userGenerator, IErrorInjector errorInject
 
     public IActionResult OnPostRandomSeed()
     {
+        var random = new Random();
         Seed = random.Next(int.MaxValue);
 
         return RedirectToPage(new { region = Region, seed = Seed, errorCount = ErrorCount });

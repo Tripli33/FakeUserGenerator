@@ -11,7 +11,7 @@ public class UserGenerator(IOptions<RegionOptions> regionOptions) : IUserGenerat
 {
     private readonly RegionOptions _regionOptions = regionOptions.Value;
 
-    public IEnumerable<User> GenerateUsers(string region, int seed, int numberOfUsers)
+    public IEnumerable<User> GenerateUsers(string region, int seed, int numberOfUsers, int page)
     {
         if (_regionOptions is null)
         {
@@ -25,8 +25,8 @@ public class UserGenerator(IOptions<RegionOptions> regionOptions) : IUserGenerat
 
         var phoneNumberUtil = PhoneNumberUtil.GetInstance();
         var userFaker = new Faker<User>(regionConfig.Bogus)
-            .UseSeed(seed) 
-            .RuleFor(u => u.Number, f => f.IndexFaker + 1)
+            .UseSeed(seed + page) 
+            .RuleFor(u => u.Number, f => f.IndexFaker + 1 + page * 10)
             .RuleFor(u => u.Id, f => Guid.NewGuid())
             .RuleFor(u => u.FullName, f => f.Name.FullName())
             .RuleFor(u => u.Address, f => 

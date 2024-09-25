@@ -4,5 +4,5 @@ namespace FakeUserGenerator.Services;
 
 public interface IUserGenerator
 {
-    IEnumerable<User> GenerateUsers(string region, int seed, int numberOfUsers);
+    IEnumerable<User> GenerateUsers(string region, int seed, int numberOfUsers, int page);
 }
