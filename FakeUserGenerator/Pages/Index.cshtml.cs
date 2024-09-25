@@ -7,6 +7,7 @@ namespace FakeUserGenerator.Pages;
 
 public class IndexModel(IUserGenerator userGenerator, IErrorInjector errorInjector) : PageModel
 {
+    private readonly Random random = new Random();
     public IEnumerable<User>? Users { get; set; }
     [BindProperty]
     public int Seed { get; set; }
@@ -26,11 +27,18 @@ public class IndexModel(IUserGenerator userGenerator, IErrorInjector errorInject
 
     public IActionResult OnPostSeed()
     {
-        return RedirectToPage(new { region = Region, seed = Seed });
+        return RedirectToPage(new { region = Region, seed = Seed, errorCount = ErrorCount });
+    }
+
+    public IActionResult OnPostRandomSeed()
+    {
+        Seed = random.Next(int.MaxValue);
+
+        return RedirectToPage(new { region = Region, seed = Seed, errorCount = ErrorCount });
     }
 
     public IActionResult OnPostErrorInject()
     {
-        return RedirectToPage(new { region = Region, seed = Seed, errorCount = ErrorCount});
+        return RedirectToPage(new { region = Region, seed = Seed, errorCount = ErrorCount });
     }
 }

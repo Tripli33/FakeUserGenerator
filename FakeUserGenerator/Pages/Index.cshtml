@@ -5,20 +5,30 @@
 }
 
 <nav class="navbar">
-    <form asp-page-handler="Seed" method="post">
-        <select id="regionSelect" asp-for="@Model.Region">
-            <option value="US">US</option>
-            <option value="PL">PL</option>
-            <option value="RU">RU</option>
-        </select>
-        <input type="number" name="seed" value="@Model.Seed"/>
-        <button type="submit">Seed</button>
-    </form>
-    <div>
+    <div style="display: flex">
+        <form asp-page-handler="Seed" method="post">
+            <select id="regionSelect" asp-for="@Model.Region">
+                <option value="US">US</option>
+                <option value="PL">PL</option>
+                <option value="RU">RU</option>
+            </select>
+            <label for="seed">Seed:</label>
+            <input type="number" name="seed" id="seed" value="@Model.Seed" onchange="this.form.submit();" />
+            <input type="hidden" name="errorCount" value="@Model.ErrorCount" />
+        </form>
+        <form asp-page-handler="RandomSeed" method="post">
+            <input type="hidden" name="region" value="@Model.Region" />
+            <input type="hidden" name="seed" value="@Model.Seed" />
+            <input type="hidden" name="errorCount" value="@Model.ErrorCount" />
+            <button type="submit">Random</button>
+        </form>
+    </div>
+    <div style="display: flex">
         <form asp-page-handler="ErrorInject" method="post">
             <input type="hidden" name="region" value="@Model.Region" />
             <input type="hidden" name="seed" value="@Model.Seed" />
-            <input type="number" name="errorCount" min="0" max="1000" value="@Model.ErrorCount" onchange="this.form.submit();" />
+            <label for="error">Error:</label>
+            <input type="number" name="errorCount" id="error" min="0" max="1000" value="@Model.ErrorCount" onchange="this.form.submit();" />
         </form>
         <form asp-page-handler="ErrorInject" method="post" id="errorInjectForm">
             <input type="hidden" name="region" value="@Model.Region" />
@@ -26,6 +36,9 @@
             <input type="range" name="errorCount" min="0" max="10" step="0.25" value="@Model.ErrorCount" onchange="this.form.submit();" />
         </form>
     </div>
+    <form action="/" method="post">
+        <button>SVG</button>
+    </form>
 </nav>
 
 <table class="table table-bordered">
