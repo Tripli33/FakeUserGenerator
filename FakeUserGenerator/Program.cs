@@ -4,6 +4,7 @@ using FakeUserGenerator.Utilities.Settings;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
+builder.Services.AddSession();
 builder.Services.AddScoped<IUserGenerator, UserGenerator>();
 builder.Services.AddScoped<IErrorInjector, ErrorInjector>();
 builder.Services.AddScoped<IExportCsvService, ExportCsvService>();
@@ -21,6 +22,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseSession();
 
 app.UseAuthorization();
 
